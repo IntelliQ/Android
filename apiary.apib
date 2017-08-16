@@ -1,0 +1,516 @@
+FORMAT: 1A
+HOST: https://intelliq.me/
+
+# IntelliQ
+
+We think no one should waste lifetime while waiting. It doesn't matter where you are - you should be able to use the time until it's your turn effectively. IntelliQ is a smart system to manage waiting queues and offers estimations about remaining waiting time.
+
+
+# Group Queue Management
+
+## Queues [/api/queue/]
+
+### Get nearby queues [GET /api/queue/nearby/{?longitude,latitude,distance,includeBusinesses}]
++ Parameters
+    + latitude: 52.393326 (float)
+    + longitude: 13.131216 (float)
+    + distance: 5000 (long) - radius in meters
+    + includeBusinesses: true (boolean) - Whether or not to group queues by parent business
+    
++ Response 200 (application/json)
+        
+        {
+          "statusCode": 200,
+          "statusMessage": "OK",
+          "content": [
+            {
+              "key": {
+                "kind": "QueueEntry",
+                "id": 5007175952891904
+              },
+              "businessKeyId": 5466771813302272,
+              "name": "Ulf's Cafe",
+              "visibility": 1,
+              "photoImageKeyId": -1,
+              "averageWaitingTime": 240000,
+              "waitingPeople": -1,
+              "latitude": 52.393326,
+              "longitude": 13.131216,
+              "country": "Deutschland",
+              "city": "Potsdam",
+              "postalCode": "14482",
+              "street": "Prof.-Dr.-Helmert-Straße",
+              "number": "2-3"
+            },
+            {
+              "key": {
+                "kind": "QueueEntry",
+                "id": 6133075859734528
+              },
+              "businessKeyId": 6473924464345088,
+              "name": "Fernsehturm",
+              "visibility": 1,
+              "photoImageKeyId": -1,
+              "averageWaitingTime": 120000,
+              "waitingPeople": -1,
+              "latitude": 52.521004,
+              "longitude": 13.40863,
+              "country": "Deutschland",
+              "city": "Berlin",
+              "postalCode": "10178",
+              "street": "Panoramastraße",
+              "number": "1A"
+            }
+          ]
+        }
+
+### Get queues by postal code [GET /api/queue/nearby/{?postalCode,includeBusinesses}]
++ Parameters
+    + postalCode: 14482 (String)
+    + includeBusinesses: true (boolean) - Whether or not to group queues by parent business
+    
++ Response 200 (application/json)
+        
+        {
+          "statusCode": 200,
+          "statusMessage": "OK",
+          "content": [
+            {
+              "key": {
+                "kind": "QueueEntry",
+                "id": 5007175952891904
+              },
+              "businessKeyId": 5466771813302272,
+              "name": "Ulf's Cafe",
+              "visibility": 1,
+              "photoImageKeyId": -1,
+              "averageWaitingTime": 240000,
+              "waitingPeople": -1,
+              "latitude": 52.393326,
+              "longitude": 13.131216,
+              "country": "Deutschland",
+              "city": "Potsdam",
+              "postalCode": "14482",
+              "street": "Prof.-Dr.-Helmert-Straße",
+              "number": "2-3"
+            },
+            {
+              "key": {
+                "kind": "QueueEntry",
+                "id": 6133075859734528
+              },
+              "businessKeyId": 6473924464345088,
+              "name": "Fernsehturm",
+              "visibility": 1,
+              "photoImageKeyId": -1,
+              "averageWaitingTime": 120000,
+              "waitingPeople": -1,
+              "latitude": 52.521004,
+              "longitude": 13.40863,
+              "country": "Deutschland",
+              "city": "Berlin",
+              "postalCode": "10178",
+              "street": "Panoramastraße",
+              "number": "1A"
+            }
+          ]
+        }
+
+
+### Get a queue by ID [GET /api/queue/get/{?queueKeyId,includeBusiness}]
++ Parameters
+    + queueKeyId: 5685570869133312 (long)
+    + includeBusiness: true (boolean) - Whether or not also get the parent business
+    
++ Response 200 (application/json)
+        
+        {
+          "statusCode": 200,
+          "statusMessage": "OK",
+          "content": [
+            {
+              "key": {
+                "kind": "QueueEntry",
+                "id": 5007175952891904
+              },
+              "businessKeyId": 5466771813302272,
+              "name": "Ulf's Cafe",
+              "visibility": 1,
+              "photoImageKeyId": -1,
+              "averageWaitingTime": 240000,
+              "waitingPeople": -1,
+              "latitude": 52.393326,
+              "longitude": 13.131216,
+              "country": "Deutschland",
+              "city": "Potsdam",
+              "postalCode": "14482",
+              "street": "Prof.-Dr.-Helmert-Straße",
+              "number": "2-3"
+            }
+          ]
+        }
+
+### Add a queue [GET /api/queue/add/{?businessKeyId,visibility,name,averageWaitingTime,latitude,longitude,country,city,postalCode,street,number}]
++ Parameters
+    + businessKeyId: 5466771813302272 (long) - Key ID of the parent business
+    + visibility: 1 (byte) - Whether or not to show the queue in public
+    + name: Ulf's Cafe (string) - Name of the queue
+    + averageWaitingTime: 240000 (long) - Average waiting time in milliseconds
+    + latitude: 52.393326 (float)
+    + longitude: 13.131216 (float)
+    + country: Deutschland (string)
+    + city: Potsdam (string)
+    + postalCode: 14482 (string)
+    + street: `Prof.-Dr.-Helmert-Straße` (string)
+    + number: `2-3` (string)
+    
++ Response 200 (application/json)
+        
+        {
+          "statusCode": 200,
+          "statusMessage": "OK",
+          "content": [
+            {
+              "key": {
+                "kind": "QueueEntry",
+                "id": 5007175952891904
+              },
+              "businessKeyId": 5466771813302272,
+              "name": "Ulf's Cafe",
+              "visibility": 1,
+              "photoImageKeyId": -1,
+              "averageWaitingTime": 240000,
+              "waitingPeople": -1,
+              "latitude": 52.393326,
+              "longitude": 13.131216,
+              "country": "Deutschland",
+              "city": "Potsdam",
+              "postalCode": "14482",
+              "street": "Prof.-Dr.-Helmert-Straße",
+              "number": "2-3"
+            }
+          ]
+        }
+
+### Populate queue with dummy items [GET /api/queue/populate/{?queueKeyId,count}]
++ Parameters
+    + queueKeyId: 5007175952891904 (long)
+    + count: 25 (byte) - Number of dummy items to add
+    
++ Response 200 (application/json)
+        
+        {
+          "statusCode": 200,
+          "statusMessage": "OK",
+          "content": 25
+        }
+
+### Mark all queue items as done [GET /api/queue/done/{?queueKeyId}]
++ Parameters
+    + queueKeyId: 5007175952891904 (long)
+    
++ Response 200 (application/json)
+        
+        {
+          "statusCode": 200,
+          "statusMessage": "OK",
+          "content": {}
+        }
+
+### Delete all queue items [GET /api/queue/clear/{?queueKeyId}]
++ Parameters
+    + queueKeyId: 5007175952891904 (long)
+    
++ Response 200 (application/json)
+        
+        {
+          "statusCode": 200,
+          "statusMessage": "OK",
+          "content": {}
+        }
+
+### Get the number of queue items with a given status [GET /api/queue/count/{?queueKeyId,status}]
++ Parameters
+    + queueKeyId: 5007175952891904 (long)
+    + status: 0 (byte) - The desired status
+        + any: -1
+        + waiting: 0
+        + canceled: 1
+        + called: 2
+        + done: 3
+    
++ Response 200 (application/json)
+        
+        {
+          "statusCode": 200,
+          "statusMessage": "OK",
+          "content": 16
+        }
+
+
+## Queue Items [/api/item/]
+
+### Get a queue item by ID [GET /api/item/get/{?queueItemKeyId}]
++ Parameters
+    + queueItemKeyId: 5288650929602560 (long)
+    
++ Response 200 (application/json)
+        
+        {
+          "statusCode": 200,
+          "statusMessage": "OK",
+          "content": {
+            "key": {
+              "kind": "QueueItemEntry",
+              "id": 5288650929602560
+            },
+            "queueKeyId": 5851600883023872,
+            "name": "Max Mustermann",
+            "showName": true,
+            "usingApp": true,
+            "entryTimestamp": 1446466030313,
+            "lastStatusChangeTimestamp": 1446466030313,
+            "ticketNumber": 12,
+            "status": 0
+          }
+        }
+
+### Get the last queue item with a given status [GET /api/queue/last/{?queueKeyId,status}]
++ Parameters
+    + queueKeyId: 5851600883023872 (long)
+    + status: 0 (byte) - The desired status
+        + any: -1
+        + waiting: 0
+        + canceled: 1
+        + called: 2
+        + done: 3
+        
++ Response 200 (application/json)
+        
+        {
+          "statusCode": 200,
+          "statusMessage": "OK",
+          "content": {
+            "key": {
+              "kind": "QueueItemEntry",
+              "id": 5288650929602560
+            },
+            "queueKeyId": 5851600883023872,
+            "name": "Max Mustermann",
+            "showName": true,
+            "usingApp": true,
+            "entryTimestamp": 1446466030313,
+            "lastStatusChangeTimestamp": 1446466030313,
+            "ticketNumber": 12,
+            "status": 0
+          }
+        }
+
+### Add a queue item [GET /api/item/add/{?queueKeyId,name,usingApp,showName}]
+
++ Parameters
+    + queueKeyId: 5851600883023872 (long)
+    + name: Max Mustermann (string) - Display name of the customer
+    + usingApp: true (boolean) - Whether or not the customer is using the app
+    + showName: true (boolean) - Whether or not the customer wants his name to be displayed
+    
++ Response 200 (application/json)
+        
+        {
+          "statusCode": 200,
+          "statusMessage": "OK",
+          "content": {
+            "key": {
+              "kind": "QueueItemEntry",
+              "id": 5288650929602560
+            },
+            "queueKeyId": 5851600883023872,
+            "name": "Max Mustermann",
+            "showName": true,
+            "usingApp": true,
+            "entryTimestamp": 1446466030313,
+            "lastStatusChangeTimestamp": 1446466030313,
+            "ticketNumber": 12,
+            "status": 0
+          }
+        }
+
+### Change a queue item status [GET /api/item/status/{?queueItemKeyId,status}]
+
++ Parameters
+    + queueItemKeyId: 5288650929602560 (long)
+    + status: 0 (byte) - The new status
+        + waiting: 0
+        + canceled: 1
+        + called: 2
+        + done: 3
+    
++ Response 200 (application/json)
+        
+        {
+          "statusCode": 200,
+          "statusMessage": "OK",
+          "content": {
+            "key": {
+              "kind": "QueueItemEntry",
+              "id": 5288650929602560
+            },
+            "queueKeyId": 5851600883023872,
+            "name": "Max Mustermann",
+            "showName": true,
+            "usingApp": true,
+            "entryTimestamp": 1446466030313,
+            "lastStatusChangeTimestamp": 1446466030313,
+            "ticketNumber": 12,
+            "status": 1
+          }
+        }
+
+### Delete a queue item [GET /api/item/delete/{?queueItemKeyId}]
+
++ Parameters
+    + queueItemKeyId (long)
+    
++ Response 200 (application/json)
+        
+        {
+          "statusCode": 200,
+          "statusMessage": "OK",
+          "content": {}
+        }
+        
+# Group Business Management
+
+## Businesses [/api/business/]
+
+### Get a business by ID [GET /api/business/get/{?businessKeyId,includeQueues}]
++ Parameters
+    + businessKeyId: 5633201930240000 (long)
+    + includeQueues: true (boolean) - whether or not to include queues owned by this business
+    
++ Response 200 (application/json)
+        
+        {
+          "statusCode": 200,
+          "statusMessage": "OK",
+          "content": {
+            "key": {
+              "kind": "BusinessEntry",
+              "id": 5466771813302272
+            },
+            "name": "Hasso Plattner Institut",
+            "email": "stephan.schultz@student.hpi.de",
+            "logoImageKeyId": 5888984278368256,
+            "queues": [
+              {
+                "key": {
+                  "kind": "QueueEntry",
+                  "id": 5007175952891904
+                },
+                "businessKeyId": 5466771813302272,
+                "name": "Ulf's Cafe",
+                "visibility": 1,
+                "photoImageKeyId": -1,
+                "averageWaitingTime": 240000,
+                "waitingPeople": 0,
+                "latitude": 52.393326,
+                "longitude": 13.131216,
+                "country": "Deutschland",
+                "city": "Potsdam",
+                "postalCode": "14482",
+                "street": "Prof.-Dr.-Helmert-Straße",
+                "number": "2-3"
+              },
+              {
+                "key": {
+                  "kind": "QueueEntry",
+                  "id": 6592671720144896
+                },
+                "businessKeyId": 5466771813302272,
+                "name": "Hasso Plattner Institut",
+                "visibility": 1,
+                "photoImageKeyId": 4763084371525632,
+                "averageWaitingTime": 60000,
+                "waitingPeople": 13,
+                "latitude": 0,
+                "longitude": 0
+              }
+            ]
+          }
+        }
+
+### Add a business [GET /api/business/add/{?name,email,averageWaitingTime,latitude,longitude,country,city,postalCode,street,number}]
++ Parameters
+    + name: Hasso Plattner Institut (string) - Name of the queue
+    + email: info@hpi.de (string) - Contact email adress
+    + averageWaitingTime: 240000 (long) - Average waiting time in milliseconds
+    + latitude: 52.393326 (float)
+    + longitude: 13.131216 (float)
+    + country: Deutschland (string)
+    + city: Potsdam (string)
+    + postalCode: 14482 (string)
+    + street: `Prof.-Dr.-Helmert-Straße` (string)
+    + number: `2-3` (string)
+    
++ Response 200 (application/json)
+        
+        {
+          "statusCode": 200,
+          "statusMessage": "OK",
+          "content": {
+            "key": {
+              "kind": "BusinessEntry",
+              "id": 5466771813302272
+            },
+            "name": "Hasso Plattner Institut",
+            "email": "stephan.schultz@student.hpi.de",
+            "logoImageKeyId": 5888984278368256,
+            "queues": [
+              {
+                "key": {
+                  "kind": "QueueEntry",
+                  "id": 5007175952891904
+                },
+                "businessKeyId": 5466771813302272,
+                "name": "Ulf's Cafe",
+                "visibility": 1,
+                "photoImageKeyId": -1,
+                "averageWaitingTime": 240000,
+                "waitingPeople": 0,
+                "latitude": 52.393326,
+                "longitude": 13.131216,
+                "country": "Deutschland",
+                "city": "Potsdam",
+                "postalCode": "14482",
+                "street": "Prof.-Dr.-Helmert-Straße",
+                "number": "2-3"
+              },
+              {
+                "key": {
+                  "kind": "QueueEntry",
+                  "id": 6592671720144896
+                },
+                "businessKeyId": 5466771813302272,
+                "name": "Hasso Plattner Institut",
+                "visibility": 1,
+                "photoImageKeyId": 4763084371525632,
+                "averageWaitingTime": 60000,
+                "waitingPeople": 13,
+                "latitude": 0,
+                "longitude": 0
+              }
+            ]
+          }
+        }
+
+# Group General
+
+## Images [/image/]
+
+### Get an image by ID [GET /image/{imageKeyId}/{size}.jpg]
+
++ Parameters
+    + imageKeyId: 5755553334689792 (long)
+    + size: 500 (string) - The maximum width of the image [an integer or "original"]. If the requested size exceeds the original size, the image will not be resized.
+    
++ Response 200 (image)
